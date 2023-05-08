@@ -1,14 +1,19 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import styles from '../../styles/style'
-import {productData} from "../../static/data.jsx"
+import {categoriesData, productData} from "../../static/data.jsx"
 import {AiOutlineSearch} from "react-icons/ai";
-import {IoIosArrowForward} from "react-icons/io";
+import {IoIosArrowDown, IoIosArrowForward} from "react-icons/io";
+import {BiMenuAltLeft} from "react-icons/bi";
+import Button from '../../components/Button/Button'
+import DropDown from './DropDown.jsx'
 
 const Header = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [searchData, setSearchData] = useState([]);
+    const [active, setActive] = useState(false);
+    const [dropDown, setDropDown] = useState(false); 
     // const {isSeller} = useSelector((state) => state.whislist);
 
     const handleSearchChange = (e) => { 
@@ -22,13 +27,21 @@ const Header = () => {
         setSearchData(filteredProducts);
     };
 
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 70) {
+          setActive(true);
+        } else {
+          setActive(false);
+        }
+    }) 
+
   return (
+    <>
     
     <div className={`${styles.section}`}>
-        
-        <div className='800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between'>
+        <div className='hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between'>
             <div>
-                <Link to="/">
+                <Link className='font-extrabold text-blue-600' to="/">
                     {/* <img src="../../assets/logo-niqem.png" alt="logo-image"/> */}
                     NIQEM
                 </Link>
@@ -66,19 +79,39 @@ const Header = () => {
             }
             </div>
 
-            <div className={`${styles.button}`}>
+            
+            <Button text="Become a Seller">
             <Link to="/seller">
               <h1 className="text-[#fff] flex items-center">
-                Become a Seller
+                
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
-          </div>
+            </Button>
+          
         </div>
-
-        
     </div>
+    <div className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } transition hidden 800px:flex items-center justify-between w-full bg-blue-400 h-[70px]`}>
+        <div className={`${styles.section} relative ${styles.normalFlex} justify-between`}>
+            {/* categories */}
+            <div>
+                <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
+                    <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
+                    <button className='h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md'>
+                        All Categories
+                    </button>
+                    <IoIosArrowDown size={20} className="absolute top-4 right-2 cursor-pointer" onClick={() => setDropDown(!dropDown)} />
+                    {
+                        dropDown ? ( <DropDown categoriesData = {categoriesData} setDropDown = {setDropDown}/>) : null
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+    </>
   )
-}
+} 
 
 export default Header
