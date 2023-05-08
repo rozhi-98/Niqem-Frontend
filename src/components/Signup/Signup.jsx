@@ -1,10 +1,10 @@
 import { React, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import styles from '../../styles/style.js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../Button/Button.jsx';
 import { RxAvatar } from 'react-icons/rx';
-import { server } from '../../server.js';
+import { server } from '../../server';
 import axios from 'axios';
 
 const Signup = () => {
@@ -13,6 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const navigate = useNavigate();
   
 
   const handleFileInputChange = (e) => {
@@ -33,12 +34,13 @@ const Signup = () => {
 
 
     axios.post(`${server}/user/create-user`, newForm, config).then((res) => {
-      console.log(res)
-    }).catch((err)=>{
+      if(res.data.success === true){
+        navigate("/");
+      }
+    }).catch((err) => {
       console.log(err)
     });
-  }
-
+  };
   
   handleSubmit
   return (
