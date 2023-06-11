@@ -1,48 +1,49 @@
-import { React, useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import styles from '../../styles/style.js';
-import { Link, useNavigate } from 'react-router-dom';
-import Button from '../Button/Button.jsx';
-import { RxAvatar } from 'react-icons/rx';
-import { server } from '../../server';
-import axios from 'axios';
+import { React, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import styles from "../../styles/style.js";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../Button/Button.jsx";
+import { RxAvatar } from "react-icons/rx";
+import { server } from "../../server";
+import axios from "axios";
 
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
-  
 
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0]; 
+    const file = e.target.files[0];
     setAvatar(file);
   };
 
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = {headers: {'Content-Type': 'multipart/form-data'}};
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const newForm = new FormData();
 
-    newForm.append('file', avatar);
-    newForm.append('email', email);
-    newForm.append('name', name);
-    newForm.append('password', password);
+    newForm.append("file", avatar);
+    newForm.append("email", email);
+    newForm.append("name", name);
+    newForm.append("password", password);
 
-
-    axios.post(`${server}/user/create-user`, newForm, config).then((res) => {
-      if(res.data.success === true){
-        navigate("/");
-      }
-    }).catch((err) => {
-      console.log(err)
-    });
+    axios
+      .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        if (res.data.success === true) {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  
-  handleSubmit
+
+  handleSubmit;
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -100,7 +101,7 @@ const Signup = () => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? 'text' : 'password'}
+                  type={visible ? "text" : "password"}
                   name="password"
                   autoComplete="password"
                   required

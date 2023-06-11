@@ -613,19 +613,19 @@ export const footerProductLinks = [
 
 export const footercompanyLinks = [
   {
-    name: "Game & Video",
+    name: "Gift Cards",
   },
   {
-    name: "Phone &Tablets",
+    name: "Furniture",
   },
   {
-    name: "Computers & Laptop",
+    name: "Clothing and Shoes",
   },
   {
-    name: "Sport Watches",
+    name: "Jewelry and Accessories",
   },
   {
-    name: "Events",
+    name: "Art and Collectibles",
   },
 ];
 
